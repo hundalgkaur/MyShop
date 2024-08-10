@@ -1,6 +1,6 @@
 {% load static %}
 
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -29,7 +29,7 @@
   <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="static/assets/css/main.css" rel="stylesheet">
+  <link href={% static 'assets/css/main.css' %} rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Tempo
@@ -64,8 +64,8 @@
          
           <li class="dropdown"><a href="#"><span>SignIn</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="/auth/signup/">SignIn</a></li>
-              <li><a href="/auth/login/">Login</a></li>
+              <li><a href="/auth/signup">SignIn</a></li>
+              <li><a href="auth/login">Login</a></li>
               <li><a href="/auth/logout/">Logout</a></li>
            
            
@@ -185,6 +185,7 @@
 
   <!-- Main JS File -->
   <script src="static/assets/js/main.js"></script>
+
 
 </body>
 

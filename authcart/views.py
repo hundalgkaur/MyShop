@@ -1,10 +1,33 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import User
 
-# Create your views here.
-# Create your views here.
+# Create your views here
 def signup(request):
-    return render(request,"authentication/signup.html")
+    print("i am running the  signup function ")
+    if(request.method =="POST"):
+        print("IT IS POST REQUEST")
+        email=request.POST['email']
+        passsword=request.POST['pass1']
+        confirm_password=request.POST['pass2']
+        if passsword != confirm_password:
+            return HttpResponse("password wrong")
+            #return render(request,'auth/signup.html')
+        try:
+            if User.objects.get(username=email):
+                return HttpResponse("email already exit")
+              
+                
+        except Exception as identifier:
+            pass
+        #user =User.objects.create_user(email,email,password)
+        new_user = User.objects.create_user(email, email)
+        new_user.save()
+        return HttpResponse('user created',email)
+
+    return render(request,"signup.html")
+
 def hundlelogin(request):
-    return render(request,"authentication/login.html")
+    return render(request,"login.html")
 def hundlelogout(request):
     return redirect('/auth/login')
