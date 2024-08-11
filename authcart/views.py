@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect,HttpResponse
-from django.contrib.auth import authenticate,login,logout
+
 from django.contrib.auth.models import User
+from django.contrib import messages
+
 
 # Create your views here
 def signup(request):
@@ -11,8 +13,9 @@ def signup(request):
         passsword=request.POST['pass1']
         confirm_password=request.POST['pass2']
         if passsword != confirm_password:
-            return HttpResponse("password wrong")
-            #return render(request,'auth/signup.html')
+            messages.warning(request,"Password is not matching")
+            #return HttpResponse("password wrong")
+            return render(request,'signup.html')
         try:
             if User.objects.get(username=email):
                 return HttpResponse("email already exit")
