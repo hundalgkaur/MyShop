@@ -121,9 +121,9 @@ USE_TZ = True
 #sending emails
 EMAIL_HOST='smtpout.secureserver.net'
 EMAIL_HOST_USER='gkhundal0001@gmail.com'
-EMAIL_HOST_PASSWORD='rkhs wvgk zvcs syrd'
-EMAIL_PORT=smtplib.SMTP('smtp.gmail.com', 587)
-EMAIL_USE_TLS = True 
+EMAIL_HOST_PASSWORD='ggn@251199#'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 
 
