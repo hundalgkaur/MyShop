@@ -62,24 +62,31 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="/" class="active">Home</a></li>
-          <li><a href="/blog" >Blog</a></li>
-          <li><a href="/about" >About</a></li>
-          <li><a href="/orders" > Orders</a></li>
-          <li><a href="/profile" >My Profile</a></li>
+          <li><a class="nav-link scrollto"  href="/" class="active">Home</a></li>
+          <li><a class="nav-link scrollto" href="/blog" >Blog</a></li>
+          <li><a class="nav-link scrollto" href="/about" >About</a></li>
+          <li><a class="nav-link scrollto" href="/orders" > Orders</a></li>
+          <li><a class="nav-link scrollto" href="/profile" >My Profile</a></li>
         
          
          
+         {% if request.user.is_authenticated %}
+         <li><a  class="nav-link scrollto" href="/auth/logout/">Logout
+         <!--{{user.username}}-->
+         </a></li>
+         {% else %}
+         <li class="dropdown"><a href="#"><span>SignIn</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <ul>
+            <li><a class="nav-link scrollto" href="/auth/signup/">SignIn</a></li>
+            <li><a  class="nav-link scrollto" href="/auth/login">Login</a></li>
+           
          
-          <li class="dropdown"><a href="#"><span>SignIn</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="/auth/signup/">SignIn</a></li>
-              <li><a href="/auth/login">Login</a></li>
-              <li><a href="/auth/logout/">Logout</a></li>
-           
-           
-            </ul>
-          </li>
+         
+          </ul>
+        </li>
+         
+         {% endif %}
+       
           <li><a  class="bg-danger p-3 m-2" href="/cart" >Cart</a></li>
           <li><a  class="bg-success p-3 m-2 bg-dark" href="/contact">Contact</a></li>
          
