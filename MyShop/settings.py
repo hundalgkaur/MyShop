@@ -150,3 +150,6 @@ MESSAGE_TAGS = {
     messages.ERROR:'danger',
    
 }
+RAZORPAY_API_KEY = 'rzp_test_g0oKLEM5Gl0su7'
+
+RAZORPAY_SECRET_KEY = '4wRhyUQg27SFruCmWXiHhUm3'

@@ -37,9 +37,9 @@ Check Out
        
        
        <div class="container">
-           <div class="col my-4">
+           <div class="col md-4">
                <h2>Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items</h2>
-               <div class="my-4">
+               <div class="md-4">
                    <ul class="list-group" id="items">
 
                     
@@ -58,10 +58,11 @@ Check Out
                    
                </div>
            </div>
-           <div class="col my-4">
+           <div class="col md-4">
                <h2>Step 2 - Enter Address & Other Details:</h2>
-               <form method="post" action="/checkout/">{% csrf_token %}
+               <form method="post" action="{% url 'checkout' %}">{% csrf_token %}
                    <input type="hidden" name="itemsJson" id="itemsJson">
+                   <input type="hidden" id="order_id" name="order_id" value="{{ order_id }}">
                 
                    <input type="hidden" id="amt" name="amt">
                    <div class="form-row">
@@ -110,8 +111,10 @@ Check Out
                    </div>
                    <br>
                
+                   <!--payment start-->
+                   <button id="rzp-button1">Pay with Razorpay</button>
                    
-                   <button id="btn" type="submit" class="btn btn-success btn-sm btn-block col-md-4">Place Order</button>
+                  <!--payment end -->
                </form>
            </div>
        </div>
@@ -170,5 +173,6 @@ document.location = "/";
 var test = `${totalPrice}`;
 document.getElementById("amt").value = test;
 </script>
+
 
 {% endblock body %}

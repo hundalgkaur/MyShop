@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
-from myShopApp.models import Contact,Product
+from myShopApp.models import Contact,Product,Orders,OrderUpdate
 from django.contrib import messages
 from math import ceil
+from MyShop.settings import RAZORPAY_SECRET_KEY,RAZORPAY_API_KEY
+import razorpay
+client = razorpay.Client(auth=(RAZORPAY_API_KEY, RAZORPAY_SECRET_KEY), auth_header='Bearer')
 
 # Create your views here.
 def index(request):
@@ -35,6 +38,7 @@ def about(request):
     return render(request,"about.html")
 
 def checkout(request):
+   
     if not request.user.is_authenticated:
         messages.warning(request,"Login & Try Again")
         return redirect('/auth/login')
@@ -58,23 +62,40 @@ def checkout(request):
         thank = True
 # # PAYMENT INTEGRATION
 
-        id = Order.order_id
-        oid=str(id)+"ShopyCart"
-        param_dict = {
-
-            'MID':keys.MID,
-            'ORDER_ID': oid,
-            'TXN_AMOUNT': str(amount),
-            'CUST_ID': email,
-            'INDUSTRY_TYPE_ID': 'Retail',
-            'WEBSITE': 'WEBSTAGING',
-            'CHANNEL_ID': 'WEB',
-            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
-
+        order_amount = 100  # Set the amount dynamically or based on your requirements
+     
+        order_currency= 'INR'
+        payment_order=client.order.create(dict(amount=order_amount * 100,currency=order_currency,payment_capture=1))
+        payment_order =payment_order['id']
+        context ={
+            'amount': 100 ,'api_key':RAZORPAY_API_KEY,'order_id':payment_order
         }
-        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        return render(request, 'paytm.html', {'param_dict': param_dict})
+        
+
+       
+        return render(request, 'payment.html', context)
+
 
     return render(request, 'checkout.html')
+
+# payment failure 
+def payment_success_view(request):
+   order_id = request.POST.get('order_id')
+   payment_id = request.POST.get('razorpay_payment_id')
+   signature = request.POST.get('razorpay_signature')
+   params_dict = {
+       'razorpay_order_id': order_id,
+       'razorpay_payment_id': payment_id,
+       'razorpay_signature': signature
+   }
+   try:
+       client.utility.verify_payment_signature(params_dict)
+       # Payment signature verification successful
+       # Perform any required actions (e.g., update the order status)
+       return render(request, 'payment_success.html')
+   except razorpay.errors.SignatureVerificationError as e:
+       # Payment signature verification failed
+       # Handle the error accordingly
+       return render(request, 'payment_failure.html')
 
 

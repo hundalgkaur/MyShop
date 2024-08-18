@@ -1,0 +1,31 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<form action="{% url 'payment_success' %}" method="POST">
+   <input type="hidden" name="order_id" value="{{ order_id }}">
+   <script>
+       var options = {
+           "key": "{{ settings.RAZORPAY_API_KEY }}",
+           "amount": "{{ amount }}",
+           "currency": "INR",
+           "name": "Your Company Name",
+           "description": "Payment Description",
+           "order_id": "{{ order_id }}",
+           "handler": function(response) {
+           alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature);
+            
+            
+
+           },
+           "prefill": {
+               "name": "Gagandeep kaur ",
+               "email": "gkhundal0001@gmail.com",
+               "contact": "8847540680"
+           }
+       };
+       var rzp = new Razorpay(options);
+       rzp.open();
+
+   </script>
+  
+</form>
